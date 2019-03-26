@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zillionfortune.cif.dal.dao.PersonMemberDao" >
+  <resultMap id="BaseResultMap" type="com.zillionfortune.cif.dal.entity.PersonMember" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="member_id" property="memberId" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+    <result column="phone_no" property="phoneNo" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="trade_pwd" property="tradePwd" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="head_img_url" property="headImgUrl" jdbcType="VARCHAR" />
+    <result column="register_source" property="registerSource" jdbcType="TINYINT" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
+    <result column="real_name_time" property="realNameTime" jdbcType="TIMESTAMP" />
+    <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="modify_by" property="modifyBy" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, member_id, customer_id, phone_no, email, nick_name, user_name, password, trade_pwd, 
+    status, head_img_url, register_source, grade, real_name_time, last_login_time, create_time, 
+    create_by, modify_time, modify_by
+  </sql>
+ 
+  <select id="selectByCriteria" resultMap="BaseResultMap" parameterType="com.zillionfortune.cif.dal.entity.PersonMember" >
+  	select 
+    <include refid="Base_Column_List" />
+     from person_member
+    <trim prefix="WHERE" prefixOverrides="and">
+      <if test="memberId != null and memberId != '' " >
+        and member_id = #{memberId,jdbcType=VARCHAR}
+      </if>
+      <if test="userName != null and userName != '' " >
+        and user_name = #{userName,jdbcType=VARCHAR}
+      </if>
+      <if test="password != null and password != '' " >
+        and password = #{password,jdbcType=VARCHAR}
+      </if>
+      <if test="customerId != null and customerId != '' " >
+        and customer_id = #{customerId,jdbcType=VARCHAR}
+      </if>
+      <if test="tradePwd != null and tradePwd != '' " >
+        and trade_pwd = #{tradePwd,jdbcType=VARCHAR}
+      </if>
+      <if test="phoneNo != null and phoneNo != '' " >
+        and phone_no = #{phoneNo,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null" >
+        and status = #{status,jdbcType=TINYINT}
+      </if>
+    </trim>
+  </select>
+  
+  <select id="getPersonMemberCount" parameterType="map" resultType="java.lang.Integer">
+  	SELECT
+  	COUNT(ID) AS CNT
+  	FROM person_member
+  	<where>
+  		<if test="userName !=null and userName != '' ">
+        	AND USER_NAME = #{userName,jdbcType=VARCHAR}
+        </if>
+ 
+        <if test="statusList !=null ">
+        	AND STATUS IN
+            <foreach item="item" index="index" collection="statusList" open="(" separator="," close=")">  
+		  		#{item}  
+		 	</foreach> 
+        </if>
+        
+  	</where>
+  </select>
+  
+  <select id="selectByMemberId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from person_member
+    where MEMBER_ID = #{member_id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from person_member
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from person_member
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.zillionfortune.cif.dal.entity.PersonMember" >
+    insert into person_member (id, member_id, customer_id, 
+      phone_no, email, nick_name, 
+      user_name, password, trade_pwd, 
+      status, head_img_url, register_source, 
+      grade, real_name_time, last_login_time, 
+      create_time, create_by, modify_time, 
+      modify_by)
+    values (#{id,jdbcType=BIGINT}, #{memberId,jdbcType=VARCHAR}, #{customerId,jdbcType=VARCHAR}, 
+      #{phoneNo,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{tradePwd,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{headImgUrl,jdbcType=VARCHAR}, #{registerSource,jdbcType=TINYINT}, 
+      #{grade,jdbcType=VARCHAR}, #{realNameTime,jdbcType=TIMESTAMP}, #{lastLoginTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{modifyBy,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.zillionfortune.cif.dal.entity.PersonMember" >
+    insert into person_member
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="memberId != null" >
+        member_id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="phoneNo != null" >
+        phone_no,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="nickName != null" >
+        nick_name,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="tradePwd != null" >
+        trade_pwd,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="headImgUrl != null" >
+        head_img_url,
+      </if>
+      <if test="registerSource != null" >
+        register_source,
+      </if>
+      <if test="grade != null" >
+        grade,
+      </if>
+      <if test="realNameTime != null" >
+        real_name_time,
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="modifyBy != null" >
+        modify_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNo != null" >
+        #{phoneNo,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="tradePwd != null" >
+        #{tradePwd,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="headImgUrl != null" >
+        #{headImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="registerSource != null" >
+        #{registerSource,jdbcType=TINYINT},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="realNameTime != null" >
+        #{realNameTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginTime != null" >
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null" >
+        #{modifyBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.zillionfortune.cif.dal.entity.PersonMember" >
+    update person_member
+    <set >
+      <if test="memberId != null" >
+        member_id = #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNo != null" >
+        phone_no = #{phoneNo,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="tradePwd != null" >
+        trade_pwd = #{tradePwd,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="headImgUrl != null" >
+        head_img_url = #{headImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="registerSource != null" >
+        register_source = #{registerSource,jdbcType=TINYINT},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="realNameTime != null" >
+        real_name_time = #{realNameTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null" >
+        modify_by = #{modifyBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByMemberIdSelective" parameterType="com.zillionfortune.cif.dal.entity.PersonMember" >
+    update person_member
+    <set >
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNo != null" >
+        phone_no = #{phoneNo,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="tradePwd != null" >
+        trade_pwd = #{tradePwd,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="headImgUrl != null" >
+        head_img_url = #{headImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="registerSource != null" >
+        register_source = #{registerSource,jdbcType=TINYINT},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="realNameTime != null" >
+        real_name_time = #{realNameTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null" >
+        modify_by = #{modifyBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where MEMBER_ID = #{memberId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.zillionfortune.cif.dal.entity.PersonMember" >
+    update person_member
+    set member_id = #{memberId,jdbcType=VARCHAR},
+      customer_id = #{customerId,jdbcType=VARCHAR},
+      phone_no = #{phoneNo,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      trade_pwd = #{tradePwd,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      head_img_url = #{headImgUrl,jdbcType=VARCHAR},
+      register_source = #{registerSource,jdbcType=TINYINT},
+      grade = #{grade,jdbcType=VARCHAR},
+      real_name_time = #{realNameTime,jdbcType=TIMESTAMP},
+      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      modify_by = #{modifyBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+</mapper>

@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zillionfortune.cif.dal.dao.PersonInfoDao" >
+  <resultMap id="BaseResultMap" type="com.zillionfortune.cif.dal.entity.PersonInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+    <result column="person_name" property="personName" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="gender" property="gender" jdbcType="TINYINT" />
+    <result column="work" property="work" jdbcType="VARCHAR" />
+    <result column="work_years" property="workYears" jdbcType="INTEGER" />
+    <result column="common_address" property="commonAddress" jdbcType="VARCHAR" />
+    <result column="marriager_status" property="marriagerStatus" jdbcType="TINYINT" />
+    <result column="annual_salary" property="annualSalary" jdbcType="DECIMAL" />
+    <result column="certificate_type" property="certificateType" jdbcType="TINYINT" />
+    <result column="certificate_no" property="certificateNo" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="modify_by" property="modifyBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, customer_id, person_name, age, gender, work, work_years, common_address, marriager_status, 
+    annual_salary, certificate_type, certificate_no, create_time, create_by, modify_time, 
+    modify_by
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from person_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByCriteria" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from person_info t
+    <trim prefix="WHERE" prefixOverrides="and">
+      <if test="customerId != null and customerId != '' " >
+        and customer_id = #{customerId,jdbcType=VARCHAR}
+      </if>
+      <if test="personName != null and personName != '' " >
+        and person_name = #{personName,jdbcType=VARCHAR}
+      </if>
+      <if test="certificateType != null" >
+        and certificate_type = #{certificateType,jdbcType=TINYINT}
+      </if>
+      <if test="certificateNo != null and certificateNo != '' " >
+        and certificate_no = #{certificateNo,jdbcType=VARCHAR}
+      </if>
+      <if test="memberId != null and memberId != '' ">
+      	and EXISTS (
+    		select 1 from person_member m 
+    		where m.customer_id = t.customer_id 
+    		and m.member_id = #{memberId,jdbcType=VARCHAR})
+      </if>
+    </trim>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from person_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.zillionfortune.cif.dal.entity.PersonInfo" >
+    insert into person_info (id, customer_id, person_name, 
+      age, gender, work, 
+      work_years, common_address, marriager_status, 
+      annual_salary, certificate_type, certificate_no, 
+      create_time, create_by, modify_time, 
+      modify_by)
+    values (#{id,jdbcType=BIGINT}, #{customerId,jdbcType=VARCHAR}, #{personName,jdbcType=VARCHAR}, 
+      #{age,jdbcType=INTEGER}, #{gender,jdbcType=TINYINT}, #{work,jdbcType=VARCHAR}, 
+      #{workYears,jdbcType=INTEGER}, #{commonAddress,jdbcType=VARCHAR}, #{marriagerStatus,jdbcType=TINYINT}, 
+      #{annualSalary,jdbcType=DECIMAL}, #{certificateType,jdbcType=TINYINT}, #{certificateNo,jdbcType=VARCHAR}, 
+      now(), #{createBy,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{modifyBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.zillionfortune.cif.dal.entity.PersonInfo" >
+    insert into person_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="personName != null" >
+        person_name,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="work != null" >
+        work,
+      </if>
+      <if test="workYears != null" >
+        work_years,
+      </if>
+      <if test="commonAddress != null" >
+        common_address,
+      </if>
+      <if test="marriagerStatus != null" >
+        marriager_status,
+      </if>
+      <if test="annualSalary != null" >
+        annual_salary,
+      </if>
+      <if test="certificateType != null" >
+        certificate_type,
+      </if>
+      <if test="certificateNo != null" >
+        certificate_no,
+      </if>
+        create_time,
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="modifyBy != null" >
+        modify_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="personName != null" >
+        #{personName,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="work != null" >
+        #{work,jdbcType=VARCHAR},
+      </if>
+      <if test="workYears != null" >
+        #{workYears,jdbcType=INTEGER},
+      </if>
+      <if test="commonAddress != null" >
+        #{commonAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="marriagerStatus != null" >
+        #{marriagerStatus,jdbcType=TINYINT},
+      </if>
+      <if test="annualSalary != null" >
+        #{annualSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="certificateType != null" >
+        #{certificateType,jdbcType=TINYINT},
+      </if>
+      <if test="certificateNo != null" >
+        #{certificateNo,jdbcType=VARCHAR},
+      </if>
+      now(),
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null" >
+        #{modifyBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zillionfortune.cif.dal.entity.PersonInfo" >
+    update person_info
+    <set >
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="personName != null" >
+        person_name = #{personName,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="work != null" >
+        work = #{work,jdbcType=VARCHAR},
+      </if>
+      <if test="workYears != null" >
+        work_years = #{workYears,jdbcType=INTEGER},
+      </if>
+      <if test="commonAddress != null" >
+        common_address = #{commonAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="marriagerStatus != null" >
+        marriager_status = #{marriagerStatus,jdbcType=TINYINT},
+      </if>
+      <if test="annualSalary != null" >
+        annual_salary = #{annualSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="certificateType != null" >
+        certificate_type = #{certificateType,jdbcType=TINYINT},
+      </if>
+      <if test="certificateNo != null" >
+        certificate_no = #{certificateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null" >
+        modify_by = #{modifyBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByCustomerIdSelective" parameterType="com.zillionfortune.cif.dal.entity.PersonInfo" >
+    update person_info
+    <set >
+      <if test="personName != null" >
+        person_name = #{personName,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="work != null" >
+        work = #{work,jdbcType=VARCHAR},
+      </if>
+      <if test="workYears != null" >
+        work_years = #{workYears,jdbcType=INTEGER},
+      </if>
+      <if test="commonAddress != null" >
+        common_address = #{commonAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="marriagerStatus != null" >
+        marriager_status = #{marriagerStatus,jdbcType=TINYINT},
+      </if>
+      <if test="annualSalary != null" >
+        annual_salary = #{annualSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="certificateType != null" >
+        certificate_type = #{certificateType,jdbcType=TINYINT},
+      </if>
+      <if test="certificateNo != null" >
+        certificate_no = #{certificateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null" >
+        modify_by = #{modifyBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CUSTOMER_ID = #{customerId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.zillionfortune.cif.dal.entity.PersonInfo" >
+    update person_info
+    set customer_id = #{customerId,jdbcType=VARCHAR},
+      person_name = #{personName,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      gender = #{gender,jdbcType=TINYINT},
+      work = #{work,jdbcType=VARCHAR},
+      work_years = #{workYears,jdbcType=INTEGER},
+      common_address = #{commonAddress,jdbcType=VARCHAR},
+      marriager_status = #{marriagerStatus,jdbcType=TINYINT},
+      annual_salary = #{annualSalary,jdbcType=DECIMAL},
+      certificate_type = #{certificateType,jdbcType=TINYINT},
+      certificate_no = #{certificateNo,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      modify_by = #{modifyBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zillionfortune.cif.dal.dao.PersonBindCardDao" >
+  <resultMap id="BaseResultMap" type="com.zillionfortune.cif.dal.entity.PersonBindCard" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="member_id" property="memberId" jdbcType="VARCHAR" />
+    <result column="band_id" property="bandId" jdbcType="VARCHAR" />
+    <result column="bind_time" property="bindTime" jdbcType="TIMESTAMP" />
+    <result column="unbind_time" property="unbindTime" jdbcType="TIMESTAMP" />
+    <result column="card_no" property="cardNo" jdbcType="VARCHAR" />
+    <result column="reserve_mobile" property="reserveMobile" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, member_id, band_id, bind_time, unbind_time, card_no, reserve_mobile, create_time, 
+    modify_time, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from person_bind_card
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectBySelective"  resultMap="BaseResultMap" parameterType="com.zillionfortune.cif.dal.entity.PersonBindCard">
+  	select 
+    <include refid="Base_Column_List" />
+    from person_bind_card
+    <trim prefix="WHERE" prefixOverrides="and">
+      <if test="memberId != null and memberId != '' " >
+        and member_id = #{memberId,jdbcType=VARCHAR}
+      </if>
+      <if test="bandId != null and bandId != '' " >
+        and band_id = #{bandId,jdbcType=VARCHAR}
+      </if>
+      <if test="cardNo != null and cardNo != '' " >
+        and card_no = #{cardNo,jdbcType=VARCHAR}
+      </if>
+      <if test="reserveMobile != null and reserveMobile != '' " >
+        and reserve_mobile = #{reserveMobile,jdbcType=VARCHAR}
+      </if>
+       <if test="status != null" >
+        and status = #{status,jdbcType=TINYINT}
+      </if>
+    </trim>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from person_bind_card
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.zillionfortune.cif.dal.entity.PersonBindCard" >
+    insert into person_bind_card (id, member_id, band_id, 
+      bind_time, unbind_time, card_no, 
+      reserve_mobile, create_time, modify_time, 
+      status)
+    values (#{id,jdbcType=BIGINT}, #{memberId,jdbcType=VARCHAR}, #{bandId,jdbcType=VARCHAR}, 
+      #{bindTime,jdbcType=TIMESTAMP}, #{unbindTime,jdbcType=TIMESTAMP}, #{cardNo,jdbcType=VARCHAR}, 
+      #{reserveMobile,jdbcType=VARCHAR}, now(), #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zillionfortune.cif.dal.entity.PersonBindCard" >
+    insert into person_bind_card
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="memberId != null" >
+        member_id,
+      </if>
+      <if test="bandId != null" >
+        band_id,
+      </if>
+      <if test="bindTime != null" >
+        bind_time,
+      </if>
+      <if test="unbindTime != null" >
+        unbind_time,
+      </if>
+      <if test="cardNo != null" >
+        card_no,
+      </if>
+      <if test="reserveMobile != null" >
+        reserve_mobile,
+      </if>
+        create_time,
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="bandId != null" >
+        #{bandId,jdbcType=VARCHAR},
+      </if>
+      <if test="bindTime != null" >
+        #{bindTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unbindTime != null" >
+        #{unbindTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cardNo != null" >
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="reserveMobile != null" >
+        #{reserveMobile,jdbcType=VARCHAR},
+      </if>
+        now(),
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zillionfortune.cif.dal.entity.PersonBindCard" >
+    update person_bind_card
+    <set >
+      <if test="memberId != null" >
+        member_id = #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="bandId != null" >
+        band_id = #{bandId,jdbcType=VARCHAR},
+      </if>
+      <if test="bindTime != null" >
+        bind_time = #{bindTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unbindTime != null" >
+        unbind_time = #{unbindTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cardNo != null" >
+        card_no = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="reserveMobile != null" >
+        reserve_mobile = #{reserveMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+        modify_time = now(),
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zillionfortune.cif.dal.entity.PersonBindCard" >
+    update person_bind_card
+    set member_id = #{memberId,jdbcType=VARCHAR},
+      band_id = #{bandId,jdbcType=VARCHAR},
+      bind_time = #{bindTime,jdbcType=TIMESTAMP},
+      unbind_time = #{unbindTime,jdbcType=TIMESTAMP},
+      card_no = #{cardNo,jdbcType=VARCHAR},
+      reserve_mobile = #{reserveMobile,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = now(),
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

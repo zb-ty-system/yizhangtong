@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property name="log.base" value="/var/logs/payment/fmd" />
+	<property name="pattern"
+		value="%d{yyyy/MM/dd-HH:mm:ss} %level [%thread] %caller{1} - %msg%n" />
+
+	<!-- 控制台输出 -->   
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+       <!-- 日志输出编码 -->  
+        <layout class="ch.qos.logback.classic.PatternLayout">   
+             <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符--> 
+            <pattern>%d{yyyy/MM/dd-HH:mm:ss} %level [%thread] %caller{1} - %msg%n
+            </pattern>   
+        </layout>   
+    </appender> 
+    <appender name="root"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.base}/payment-fmd-root.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.base}/%d{yyyy-MM-dd}/payment-fmd-%i.%d{yyyy-MM-dd}.log.gz
+            </fileNamePattern>
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>30MB</MaxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${pattern}</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="ERROR"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.base}/payment-fmd-error.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">  
+            <level>ERROR</level>  
+            <onMatch>ACCEPT</onMatch>  
+            <onMismatch>DENY</onMismatch>  
+        </filter>  
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.base}/%d{yyyy-MM-dd}/payment-fmd-error-%i.%d{yyyy-MM-dd}.log.gz
+            </fileNamePattern>
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>30MB</MaxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${pattern}</pattern>
+        </encoder>
+    </appender>
+
+
+    <!-- 上线初期建议lever=info，正常运行后建以lever=error,测试时lever=error-->
+
+<!--    <logger name="org.jdbcdslog.ConnectionLogger" level="debug">
+       <appender-ref ref="root"/>
+    </logger>
+
+    <logger name="org.jdbcdslog.StatementLogger" level="debug">
+       <appender-ref ref="root"/>
+    </logger>
+    <logger name="org.jdbcdslog.SlowQueryLogger" level="debug">
+       <appender-ref ref="root"/>
+    </logger>
+    <logger name="org.jdbcdslog.ResultSetLogger" level="debug">
+        <appender-ref ref="root"/>
+    </logger>
+	<logger name="org.apache.ibatis.logging.slf4j" level="debug">
+		<appender-ref ref="root" />
+	</logger>
+	<logger name="org.springframework.jdbc.datasource" level="debug">
+		<appender-ref ref="root"/>
+	</logger>
+	<logger name="org.mybatis.spring.transaction" level="debug">
+		<appender-ref ref="root"/>
+	</logger>
+	
+	 <logger name="org.apache.ibatis" level="trace">
+		<appender-ref ref="root"/>
+	</logger>-->
+	
+	<!-- root级别控制 -->
+	<root level="info">
+		<appender-ref ref="STDOUT"/>
+		<appender-ref ref="ERROR" />
+		<appender-ref ref="root" />
+	</root>
+
+</configuration>  

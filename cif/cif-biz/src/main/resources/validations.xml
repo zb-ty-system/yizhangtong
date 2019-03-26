@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<validation-root namespace="com.pinganfu.bankgateway.validate" default-resource="default-messages">
+    <include file="org/iscreen/validators.xml" />
+    
+    <validator id="StringValidator" ref="org.iscreen.StringValidator" >
+        <failure property="nullFailure" key="vf.null" />
+    </validator>
+    
+    <validator id="NumberRangeValidator" ref="org.iscreen.NumberRangeValidator" >
+        <failure property="rangeFailure" key="vf.numberOutOfRange" /> 
+        <failure property="invalidNumberFailure" key="vf.invalidNumber" />
+    </validator>
+    
+    <validator id="MinNumberAmount" ref="NumberRangeValidator">
+        <constraint property="minimumValue">10000</constraint>
+        <failure property="rangeFailure" key="vf.numberOutOfMin" />
+        <mapping from="amount" />
+        <label>amount</label>
+    </validator>
+    
+    <!-- 基本配置 -->
+    <resource id="default-messages">
+        <resource-file file="messages" />
+    </resource>
+    
+    <validator id="RequiredString" ref="StringValidator">
+        <constraint property="minLength">1</constraint>
+    </validator>
+    <!-- 基本配置 end -->
+    
+    <!-- 单个属性验证配置 -->
+    <validator id="bankId" ref="RequiredString">
+	   <mapping from="bankId" />
+	   <label>bankId</label>
+    </validator>
+	<validator id="orderNo" ref="RequiredString">
+		<mapping from="orderNo" />
+		<label>orderNo</label>
+	</validator>
+	<validator id="orderDate" ref="RequiredString">
+		<mapping from="orderDate" />
+		<label>orderDate</label>
+	</validator>
+	<validator id="orderTime" ref="RequiredString">
+		<mapping from="orderTime" />
+		<label>orderTime</label>
+	</validator>
+	<!-- <validator id="amount" ref="NumberRangeValidator">
+		<constraint property="minimumValue">10000</constraint>
+		<failure property="rangeFailure" key="vf.numberOutOfMin" />
+		<mapping from="amount" />
+		<label>amount</label>
+	</validator> -->
+	<validator id="curType" ref="RequiredString">
+		<mapping from="curType" />
+		<label>curType</label>
+	</validator>
+	<validator id="bankCode" ref="RequiredString">
+		<mapping from="bankCode" />
+		<label>bankCode</label>
+	</validator>
+	<validator id="cardType" ref="RequiredString">
+		<mapping from="cardType" />
+		<label>cardType</label>
+	</validator>
+	<validator id="fromSys" ref="RequiredString">
+		<mapping from="fromSys" />
+		<label>fromSys</label>
+	</validator>
+	<validator id="bankProductType" ref="RequiredString">
+		<mapping from="bankProductType" />
+		<label>bankProductType</label>
+	</validator>
+	<validator id="customerId" ref="RequiredString">
+		<mapping from="customerId" />
+		<label>customerId</label>
+	</validator>
+    
+    
+    
+    
+    
+    <validator id="refundAmount" ref="RequiredString">
+		<mapping from="refundAmount" />
+		<label>refundAmount</label>
+	</validator>
+	<validator id="creator" ref="RequiredString">
+		<mapping from="creator" />
+		<label>creator</label>
+	</validator>
+	<!-- <validator id="orderNo" ref="RequiredString">
+		<mapping from="orderNo" />
+		<label>orderNo</label>
+	</validator> -->
+	<validator id="originOrderNo" ref="RequiredString">
+		<mapping from="originOrderNo" />
+		<label>originOrderNo</label>
+	</validator>
+	<validator id="coreTransId" ref="RequiredString">
+		<mapping from="coreTransId" />
+		<label>coreTransId</label>
+	</validator>
+	<!-- <validator id="bankCode" ref="RequiredString">
+		<mapping from="bankCode" />
+		<label>bankCode</label>
+	</validator>
+	<validator id="bankId" ref="RequiredString">
+		<mapping from="bankId" />
+		<label>bankId</label>
+	</validator> 
+	<validator id="cardType" ref="RequiredString">
+		<mapping from="cardType" />
+		<label>cardType</label>
+	</validator>
+	<validator id="bankProductType" ref="RequiredString">
+		<mapping from="bankProductType" />
+		<label>bankProductType</label>
+	</validator>
+	<validator id="customerId" ref="RequiredString">
+		<mapping from="customerId" />
+		<label>customerId</label>
+	</validator> -->
+	<validator id="signId" ref="RequiredString">
+		<mapping from="signId" />
+		<label>signId</label>
+	</validator>
+	<validator id="orignCoreTransId" ref="RequiredString">
+		<mapping from="orignCoreTransId" />
+		<label>orignCoreTransId</label>
+	</validator>
+
+    <!-- 单个属性验证配置 end -->
+    
+
+    <!-- 验证规则配置 -->
+<!--     <validation-set id="default_id">
+        <use-validator ref="id" />
+    </validation-set>
+    
+    <validation-set id="default_upd">
+        <use-validator ref="id" />
+        <use-validator ref="updator" />
+    </validation-set> -->
+    
+    
+    <validation-set id="B2CPaymentReq_1">
+		<!-- <use-validator ref="bankId" /> -->
+		<use-validator ref="coreTransId" />
+		<use-validator ref="orderNo" /> 
+		<use-validator ref="orderDate" />
+		<use-validator ref="orderTime" />
+		<!--use-validator ref="MinNumberAmount" /-->
+		<use-validator ref="curType" />
+		<use-validator ref="bankCode" />
+		<use-validator ref="cardType" />
+		<use-validator ref="fromSys" />
+		<use-validator ref="bankProductType" />
+<!-- 		<use-validator ref="customerId" /> -->
+    </validation-set>
+    
+    <validation-set id="FastRefundReq_1">
+        <use-validator ref="refundAmount" />
+        <!-- <use-validator ref="creator" /> -->
+        <use-validator ref="orderNo" />
+        <use-validator ref="originOrderNo" />
+        <!-- <use-validator ref="coreTransId" />
+        <use-validator ref="bankCode" />
+        <use-validator ref="bankId" />-->
+        <use-validator ref="cardType" /> 
+        <use-validator ref="bankProductType" />
+        <!-- <use-validator ref="customerId" />
+        <use-validator ref="signId" />
+        <use-validator ref="orignCoreTransId" /> -->
+    </validation-set>
+    
+    <!-- 验证规则配置 -->
+
+</validation-root>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zb.sms.common.dao.mapper.SmsGlobalConfigMapper">
+    <resultMap id="BaseResultMap" type="com.zb.sms.common.model.SmsGlobalConfigDo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="param_group" property="paramGroup" jdbcType="VARCHAR"/>
+        <result column="param_key" property="paramKey" jdbcType="VARCHAR"/>
+        <result column="param_value" property="paramValue" jdbcType="LONGVARCHAR"/>
+        <result column="param_desc" property="paramDesc" jdbcType="LONGVARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, param_group, param_key, param_value, param_desc, create_time, modified_time
+    </sql>
+
+    <sql id="Select_SQL">
+        select
+        <include refid="Base_Column_List"/>
+        from sms_global_config
+        <where>
+            <if test="id != null">
+                and id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="paramGroup != null">
+                and param_group = #{paramGroup,jdbcType=VARCHAR}
+            </if>
+            <if test="paramKey != null">
+                and param_key = #{paramKey,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </sql>
+
+    <select id="select" resultMap="BaseResultMap" parameterType="com.zb.sms.common.model.SmsGlobalConfigDo">
+        <include refid="Select_SQL"/>
+    </select>
+
+    <select id="selectList" resultMap="BaseResultMap" parameterType="com.zb.sms.common.model.SmsGlobalConfigDo">
+        <include refid="Select_SQL"/>
+    </select>
+
+    <select id="selectByMap" resultMap="BaseResultMap" parameterType="map">
+        <include refid="Select_SQL"/>
+    </select>
+
+    <select id="selectListByMap" resultMap="BaseResultMap" parameterType="map">
+        <include refid="Select_SQL"/>
+    </select>
+
+    <insert id="insert" parameterType="com.zb.sms.common.model.SmsGlobalConfigDo">
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sms_global_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="paramGroup != null">
+                param_group,
+            </if>
+            <if test="paramKey != null">
+                param_key,
+            </if>
+            <if test="paramValue != null">
+                param_value,
+            </if>
+            <if test="paramDesc != null">
+                param_desc,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="paramGroup != null">
+                #{paramGroup,jdbcType=VARCHAR},
+            </if>
+            <if test="paramKey != null">
+                #{paramKey,jdbcType=VARCHAR},
+            </if>
+            <if test="paramValue != null">
+                #{paramValue,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="paramDesc != null">
+                #{paramDesc,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.zb.sms.common.model.SmsGlobalConfigDo">
+        update sms_global_config
+        <set>
+            <if test="paramGroup != null">
+                param_group = #{paramGroup,jdbcType=VARCHAR},
+            </if>
+            <if test="paramKey != null">
+                param_key = #{paramKey,jdbcType=VARCHAR},
+            </if>
+            <if test="paramValue != null">
+                param_value = #{paramValue,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="paramDesc != null">
+                param_desc = #{paramDesc,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from sms_global_config
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+</mapper>

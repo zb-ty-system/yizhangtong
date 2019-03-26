@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zillionfortune.cif.dal.dao.EnterpriseMemberDao" >
+  <resultMap id="BaseResultMap" type="com.zillionfortune.cif.dal.entity.EnterpriseMember" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="member_id" property="memberId" jdbcType="VARCHAR" />
+    <result column="customer_no" property="customerNo" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+    <result column="trade_pwd" property="tradePwd" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
+    <result column="head_img_url" property="headImgUrl" jdbcType="VARCHAR" />
+    <result column="register_source" property="registerSource" jdbcType="TINYINT" />
+    <result column="real_name_time" property="realNameTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="modify_by" property="modifyBy" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- 企业会员信息 -->
+  <resultMap id="EnterpriseInfoMemberMap" type="com.zillionfortune.cif.dal.entity.EnterpriseInfoMember" >
+    <result column="member_id" property="memberId" jdbcType="VARCHAR" />
+    <result column="customer_no" property="customerNo" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="auth_grade" property="authGrade" jdbcType="VARCHAR" />
+    <result column="enterprise_name" property="enterpriseName" jdbcType="VARCHAR" />
+    <result column="enterprise_audit_status" property="enterpriseAuditStatus" jdbcType="VARCHAR" />
+    <result column="legal_person_audit_status" property="legalPersonAuditStatus" jdbcType="VARCHAR" />
+    <result column="certificate_type" property="certificateType" jdbcType="TINYINT" />
+    <result column="certificate_no" property="certificateNo" jdbcType="VARCHAR" />
+    <result column="legal_person_name" property="legalPersonName" jdbcType="VARCHAR" />
+    <result column="legal_person_certificate_type" property="legalPersonCertificateType" jdbcType="TINYINT" />
+    <result column="legal_person_certificate_no" property="legalPersonCertificateNo" jdbcType="VARCHAR" />
+    <result column="enterprise_register_addr" property="registerAddress" jdbcType="VARCHAR" />
+    <result column="phone_no" property="phoneNo" jdbcType="VARCHAR" />
+    <result column="bank_account_name" property="branchBankName" jdbcType="VARCHAR" />
+    <result column="bank_account_no" property="bankAccountNo" jdbcType="VARCHAR" />
+    <result column="branch_bank_name" property="bankAccountName" jdbcType="VARCHAR" />
+    <result column="post_code" property="postCode" jdbcType="VARCHAR" />
+    <result column="enterprise_audit_comment" property="enterpriseAuditComment" jdbcType="VARCHAR" />
+    <result column="legal_person_audit_comment" property="legalPersonAuditComment" jdbcType="VARCHAR" />
+    <result column="legal_person_certificate_expire_date" property="legalPersonCertExpDate" jdbcType="VARCHAR" />
+    <result column="certificate_expire_date" property="certificateExpireDate" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, member_id, customer_no, customer_id, trade_pwd, status, grade, head_img_url, 
+    register_source, real_name_time, create_time, create_by, modify_time, modify_by
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from enterprise_member
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+   <select id="selectByCriteria" resultMap="BaseResultMap" parameterType="com.zillionfortune.cif.dal.entity.EnterpriseMember">
+  	select 
+    <include refid="Base_Column_List" />
+    from enterprise_member
+    <trim prefix="WHERE" prefixOverrides="and">
+      <if test="memberId != null" >
+        and member_id = #{memberId,jdbcType=VARCHAR}
+      </if>
+      <if test="customerNo != null" >
+        and customer_no = #{customerNo,jdbcType=VARCHAR}
+      </if>
+      <if test="customerId != null" >
+        and customer_id = #{customerId,jdbcType=VARCHAR}
+      </if>
+      <if test="tradePwd != null" >
+        and trade_pwd = #{tradePwd,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null" >
+        and status = #{status,jdbcType=TINYINT}
+      </if>
+    </trim>
+  </select>
+	<select id="getEnterpriseMemberCount" parameterType="map" resultType="java.lang.Integer">
+		select
+		count(id) as cnt
+		FROM enterprise_member
+		<where>
+			<if test="memberId !=null and memberId != '' ">
+	      		and member_id = #{memberId,jdbcType=VARCHAR}
+	        </if>
+	
+	      <if test="statusList !=null ">
+	      	and status in
+	        <foreach item="item" index="index" collection="statusList" open="(" separator="," close=")">  
+				#{item}  
+			</foreach> 
+	      </if>
+	      
+		</where>
+	</select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from enterprise_member
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.zillionfortune.cif.dal.entity.EnterpriseMember" >
+    insert into enterprise_member (id, member_id, customer_no, 
+      customer_id, trade_pwd,
+      status, grade, head_img_url, 
+      register_source, create_time, create_by, 
+      modify_time, modify_by)
+    values (#{id,jdbcType=BIGINT}, #{memberId,jdbcType=VARCHAR}, #{customerNo,jdbcType=VARCHAR}, 
+      #{customerId,jdbcType=VARCHAR}, #{tradePwd,jdbcType=VARCHAR},
+      #{status,jdbcType=TINYINT}, #{grade,jdbcType=VARCHAR}, #{headImgUrl,jdbcType=VARCHAR}, 
+      #{registerSource,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{modifyBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.zillionfortune.cif.dal.entity.EnterpriseMember" >
+    insert into enterprise_member
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="memberId != null" >
+        member_id,
+      </if>
+      <if test="customerNo != null" >
+        customer_no,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="tradePwd != null" >
+        trade_pwd,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="grade != null" >
+        grade,
+      </if>
+      <if test="headImgUrl != null" >
+        head_img_url,
+      </if>
+      <if test="registerSource != null" >
+        register_source,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="modifyBy != null" >
+        modify_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerNo != null" >
+        #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="tradePwd != null" >
+        #{tradePwd,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="headImgUrl != null" >
+        #{headImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="registerSource != null" >
+        #{registerSource,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null" >
+        #{modifyBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zillionfortune.cif.dal.entity.EnterpriseMember" >
+    update enterprise_member
+    <set >
+      <if test="memberId != null" >
+        member_id = #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerNo != null" >
+        customer_no = #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="tradePwd != null" >
+        trade_pwd = #{tradePwd,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="headImgUrl != null" >
+        head_img_url = #{headImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="registerSource != null" >
+        register_source = #{registerSource,jdbcType=TINYINT},
+      </if>
+      <if test="realNameTime != null" >
+        real_name_time = #{realNameTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null" >
+        modify_by = #{modifyBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zillionfortune.cif.dal.entity.EnterpriseMember" >
+    update enterprise_member
+    set member_id = #{memberId,jdbcType=VARCHAR},
+      customer_no = #{customerNo,jdbcType=VARCHAR},
+      customer_id = #{customerId,jdbcType=VARCHAR},
+      trade_pwd = #{tradePwd,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      grade = #{grade,jdbcType=VARCHAR},
+      head_img_url = #{headImgUrl,jdbcType=VARCHAR},
+      register_source = #{registerSource,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      modify_by = #{modifyBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByMemberIdSelective" parameterType="com.zillionfortune.cif.dal.entity.EnterpriseMember" >
+    update enterprise_member
+    <set >
+      <if test="customerNo != null" >
+        customer_no = #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="tradePwd != null" >
+        trade_pwd = #{tradePwd,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="headImgUrl != null" >
+        head_img_url = #{headImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="registerSource != null" >
+        register_source = #{registerSource,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null" >
+        modify_by = #{modifyBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where MEMBER_ID = #{memberId,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 更新会员认证等级  -->
+  <update id="updateAuthGradeByCustomerId" parameterType="java.util.Map" >
+  	update enterprise_member 
+  	set grade = CONCAT(#{authGrade,jdbcType=VARCHAR},SUBSTR(grade,2))
+  	<if test="authGrade == 3" >
+       , real_name_time = now() 
+    </if>
+  	where customer_id = #{customerId,jdbcType=VARCHAR}
+  </update>
+  
+  <sql id="whereQueryInfoByPage">
+  	<where>
+  	  <if test="memberId != null" >
+        and m.member_id = #{memberId,jdbcType=VARCHAR}
+      </if>
+	  <if test="mobile != null" >
+        and EXISTS (select 1 from enterprise_operator o where o.member_id = m.member_id and o.mobile = #{mobile,jdbcType=VARCHAR})
+      </if>
+	  <if test="customerNo != null" >
+        and m.customer_no = #{customerNo,jdbcType=VARCHAR}
+      </if>
+      <if test="customerId != null" >
+        and i.customer_id = #{customerId,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null" >
+        and m.status = #{status,jdbcType=TINYINT}
+      </if>
+      <if test="enterpriseName != null" >
+        AND i.enterprise_name LIKE '%${enterpriseName}%'
+      </if>
+      <if test="legalPersonName != null" >
+        AND i.legal_person_name = #{legalPersonName,jdbcType=VARCHAR}
+      </if>
+      <if test="enterpriseAuditStatus != null" >
+        and i.enterprise_audit_status = #{enterpriseAuditStatus,jdbcType=TINYINT}
+      </if>
+      <if test="legalPersonAuditStatus != null" >
+        and i.legal_person_audit_status = #{legalPersonAuditStatus,jdbcType=TINYINT}
+      </if>
+      <if test="authStatus != null" >
+        and m.grade like '${authStatus}%'
+      </if>
+      <if test="registerTimeStart != null" >
+        and  m.create_time &gt;= #{registerTimeStart,jdbcType=TIMESTAMP}
+      </if>
+      <if test="registerTimeEnd != null" >
+        and  m.create_time  &lt; #{registerTimeEnd,jdbcType=TIMESTAMP}
+      </if>
+	</where>
+  </sql>
+  
+  <!-- 企业会员信息列表分页查询  -->
+  <select id="queryInfoByPage" parameterType="java.util.Map" resultMap="EnterpriseInfoMemberMap">
+  	SELECT 
+		m.member_id,
+		m.customer_no,
+		m.status,
+		SUBSTR(m.grade, 1,1) auth_grade,
+		i.enterprise_audit_status,
+		i.legal_person_audit_status,
+		i.enterprise_name,
+		i.certificate_type,
+		i.certificate_no,
+		DATE_FORMAT(i.certificate_expire_date,'%Y-%m-%d') certificate_expire_date,
+		i.legal_person_name,
+		i.legal_person_certificate_type,
+		i.legal_person_certificate_no,
+		DATE_FORMAT(i.legal_person_certificate_expire_date,'%Y-%m-%d') legal_person_certificate_expire_date,
+		i.enterprise_register_addr,
+		i.phone_no,
+		i.bank_account_name,
+		i.bank_account_no,
+		i.branch_bank_name,
+		i.post_code,
+		i.enterprise_audit_comment,
+		i.legal_person_audit_comment
+	from enterprise_info i
+	left JOIN  enterprise_member m on i.customer_id = m.customer_id
+	<include refid="whereQueryInfoByPage" />
+	limit ${pageStart},${pageSize}
+  </select>
+  <select id="queryInfoByPageCount"  resultType="java.lang.Long"  parameterType="java.util.Map">
+  	SELECT 
+		count(1)
+	from enterprise_info i
+	left JOIN  enterprise_member m on i.customer_id = m.customer_id
+	<include refid="whereQueryInfoByPage" />
+  </select>
+</mapper>

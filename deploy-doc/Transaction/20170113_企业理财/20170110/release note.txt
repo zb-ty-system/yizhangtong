@@ -1,0 +1,14 @@
+﻿部署信息
+  发布日期：2017-01-19
+  涉及系统：
+    product:http://gitlab.zbjf.com/yizhangtong/product (release20170112)
+    order:http://gitlab.zbjf.com/yizhangtong/order (release20170112)
+    ams:http://gitlab.zbjf.com/yizhangtong/AssetManagement (release20170112)
+    trading-t:http://gitlab.zbjf.com/yizhangtong/trading_t
+    asset-t:http://gitlab.zbjf.com/yizhangtong/asset_t
+需求信息
+  
+负责人
+  niuzhanjun@zillionfortune.com
+相关文档
+

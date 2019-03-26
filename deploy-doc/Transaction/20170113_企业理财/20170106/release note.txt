@@ -1,0 +1,21 @@
+部署信息
+  发布日期：2017-01-13
+  涉及系统：
+    product:http://gitlab.zbjf.com/yizhangtong/product (release20170112)
+    order:http://gitlab.zbjf.com/yizhangtong/order (release20170112)
+    ams:http://gitlab.zbjf.com/yizhangtong/AssetManagement (release20170112)
+    trading-t:http://gitlab.zbjf.com/yizhangtong/trading_t
+需求信息
+  http://jira.zbjf.com/browse/YZT-183
+  http://jira.zbjf.com/browse/YZT-290
+负责人
+  niuzhanjun@zillionfortune.com
+  yuxingsong@zillionfortune.com
+相关文档
+  \DDL\asset_t_ddl.sql
+  \DDL\assetmng_ddl.sql
+  \DDL\operation_init_ddl.sql
+  \DDL\order_ddl.sql
+  \DDL\product_ddl.sql
+  \DDL\trading_ddl.sql
+  \DML\product_init_dml.sql

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <context:annotation-config/>
+
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <ref bean="jsonConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!--只扫描controller，其他类型在主配置文件中扫描 -->
+    <context:component-scan base-package="com.zb.sms.gateway.web"/>
+
+    <mvc:default-servlet-handler/>
+
+    <!-- FreeMarker配置 -->
+    <bean id="freemarkerConfig"
+          class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="WEB-INF/ftl/"/>
+        <property name="defaultEncoding" value="utf-8"/>
+    </bean>
+    <bean id="freeMarkerViewResolver"
+          class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="suffix" value=".ftl"/>
+        <property name="order" value="1"/>
+        <property name="contentType" value="text/html; charset=UTF-8"/>
+        <property name="requestContextAttribute" value="base"/>
+    </bean>
+
+    <!-- JSON格式转换 -->
+    <bean id="jsonConverter"
+          class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/html;charset=UTF-8</value>
+                <!--ie必须加上这段 -->
+                <value>application/json;charset=UTF-8</value>
+            </list>
+        </property>
+    </bean>
+    <!--解决FastJson循环引用的问题 -->
+    <!--<bean id="DisableCircularReferenceDetect" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean"> -->
+    <!--<property name="staticField" value="com.alibaba.fastjson.serializer.SerializerFeature.DisableCircularReferenceDetect"></property> -->
+    <!--</bean> -->
+
+    <!--spring aop使用annotation -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+</beans>

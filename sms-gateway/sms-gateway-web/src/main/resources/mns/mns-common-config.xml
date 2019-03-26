@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 实时短信生产者 -->
+    <bean id="YiMeiRealTimeProducer" class="com.zb.sms.common.mns.MnsProducer">
+        <property name="accessKey" value="${config.mns.ym.realtime.accessKey}"/>
+        <property name="secretKey" value="${config.mns.ym.realtime.secretKey}"/>
+        <property name="endpoint" value="${config.mns.ym.realtime.endpoint}"/>
+        <property name="queueName" value="${config.mns.ym.realtime.queueName}"/>
+    </bean>
+
+    <!-- 营销短信生产者 -->
+    <bean id="YiMeiMarketProducer" class="com.zb.sms.common.mns.MnsProducer">
+        <property name="accessKey" value="${config.mns.ym.market.accessKey}"/>
+        <property name="secretKey" value="${config.mns.ym.market.secretKey}"/>
+        <property name="endpoint" value="${config.mns.ym.market.endpoint}"/>
+        <property name="queueName" value="${config.mns.ym.market.queueName}"/>
+    </bean>
+</beans>

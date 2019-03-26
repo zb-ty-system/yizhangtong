@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 实时短信生产者 -->
+    <!--    <bean id="YiMeiRealTimeProducer" class="com.zb.sms.common.ons.OnsProducer" init-method="start"
+              destroy-method="shutdown">
+            <property name="properties"> &lt;!&ndash;生产者配置信息&ndash;&gt;
+                <props>
+                    <prop key="ProducerId">${config.ons.ym.realtime.producer}</prop>
+                    <prop key="AccessKey">${config.ons.ym.realtime.accessKey}</prop>
+                    <prop key="SecretKey">${config.ons.ym.realtime.secretKey}</prop>
+                    <prop key="ONSAddr">${config.ons.ym.realtime.onsAddr}</prop>
+                    <prop key="SendMsgTimeoutMillis">${config.ons.ym.realtime.send.timeout}</prop>
+                </props>
+            </property>
+            <property name="topic" value="${config.ons.ym.realtime.topic}"/>
+            <property name="tag" value="${config.ons.ym.realtime.tag}"/>
+        </bean>-->
+
+    <!-- 营销短信生产者 -->
+    <!--    <bean id="YiMeiMarketProducer" class="com.zb.sms.common.ons.OnsProducer" init-method="start"
+              destroy-method="shutdown">
+            <property name="properties"> &lt;!&ndash;生产者配置信息&ndash;&gt;
+                <props>
+                    <prop key="ProducerId">${config.ons.ym.realtime.producer}</prop>
+                    <prop key="AccessKey">${config.ons.ym.realtime.accessKey}</prop>
+                    <prop key="SecretKey">${config.ons.ym.realtime.secretKey}</prop>
+                    <prop key="ONSAddr">${config.ons.ym.realtime.onsAddr}</prop>
+                    <prop key="SendMsgTimeoutMillis">${config.ons.ym.realtime.send.timeout}</prop>
+                </props>
+            </property>
+            <property name="topic" value="${config.ons.ym.realtime.topic}"/>
+            <property name="tag" value="${config.ons.ym.realtime.tag}"/>
+        </bean>-->
+</beans>

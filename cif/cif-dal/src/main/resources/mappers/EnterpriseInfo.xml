@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zillionfortune.cif.dal.dao.EnterpriseInfoDao" >
+  <resultMap id="BaseResultMap" type="com.zillionfortune.cif.dal.entity.EnterpriseInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+    <result column="enterprise_name" property="enterpriseName" jdbcType="VARCHAR" />
+    <result column="certificate_type" property="certificateType" jdbcType="BIT" />
+    <result column="certificate_no" property="certificateNo" jdbcType="VARCHAR" />
+    <result column="certificate_expire_date" property="certificateExpireDate" jdbcType="TIMESTAMP" />
+    <result column="phone_no" property="phoneNo" jdbcType="VARCHAR" />
+    <result column="legal_person_name" property="legalPersonName" jdbcType="VARCHAR" />
+    <result column="legal_person_certificate_type" property="legalPersonCertificateType" jdbcType="TINYINT" />
+    <result column="legal_person_certificate_no" property="legalPersonCertificateNo" jdbcType="VARCHAR" />
+    <result column="legal_person_certificate_expire_date" property="legalPersonCertificateExpireDate" jdbcType="TIMESTAMP" />
+    <result column="enterprise_register_addr" property="enterpriseRegisterAddr" jdbcType="VARCHAR" />
+    <result column="post_code" property="postCode" jdbcType="VARCHAR" />
+    <result column="branch_bank_name" property="branchBankName" jdbcType="VARCHAR" />
+    <result column="bank_account_region" property="bankAccountRegion" jdbcType="VARCHAR" />
+    <result column="bank_account_name" property="bankAccountName" jdbcType="VARCHAR" />
+    <result column="bank_account_no" property="bankAccountNo" jdbcType="VARCHAR" />
+    <result column="enterprise_type" property="enterpriseType" jdbcType="INTEGER" />
+    <result column="industry" property="industry" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="modify_by" property="modifyBy" jdbcType="VARCHAR" />
+    <result column="enterprise_audit_comment" property="enterpriseAuditComment" jdbcType="VARCHAR" />
+    <result column="legal_person_audit_comment" property="legalPersonAuditComment" jdbcType="VARCHAR" />
+    <result column="enterprise_audit_status" property="enterpriseAuditStatus" jdbcType="TINYINT" />
+    <result column="legal_person_audit_status" property="legalPersonAuditStatus" jdbcType="TINYINT" />
+  </resultMap>
+  <!-- 企业会员认证 -->
+  <resultMap id="EnterpriseInfoMemberMap" type="com.zillionfortune.cif.dal.entity.EnterpriseInfoMember" >
+    <result column="member_id" property="memberId" jdbcType="VARCHAR" />
+    <result column="customer_no" property="customerNo" jdbcType="VARCHAR" />
+    <result column="enterprise_name" property="enterpriseName" jdbcType="VARCHAR" />
+    <result column="certificate_type" property="certificateType" jdbcType="TINYINT" />
+    <result column="certificate_no" property="certificateNo" jdbcType="VARCHAR" />
+    <result column="certificate_expire_date" property="certificateExpireDate" jdbcType="TIMESTAMP" />
+    <result column="legal_person_name" property="legalPersonName" jdbcType="VARCHAR" />
+    <result column="legal_person_certificate_type" property="legalPersonCertificateType" jdbcType="TINYINT" />
+    <result column="legal_person_certificate_no" property="legalPersonCertificateNo" jdbcType="VARCHAR" />
+    <result column="legal_person_certificate_expire_date" property="legalPersonCertExpDate" jdbcType="TIMESTAMP" />
+    <result column="enterprise_audit_comment" property="enterpriseAuditComment" jdbcType="VARCHAR" />
+    <result column="legal_person_audit_comment" property="legalPersonAuditComment" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, customer_id, enterprise_name, certificate_type, certificate_no, certificate_expire_date, 
+    phone_no, legal_person_name, legal_person_certificate_type, legal_person_certificate_no, 
+    legal_person_certificate_expire_date, enterprise_register_addr, post_code, branch_bank_name, 
+    bank_account_region, bank_account_name, bank_account_no,  enterprise_type, industry, 
+   	create_time, create_by, modify_time, modify_by, enterprise_audit_status, 
+   	legal_person_audit_status, enterprise_audit_comment ,legal_person_audit_comment
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from enterprise_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByMemberId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	select 
+    <include refid="Base_Column_List" />
+    from enterprise_info t
+    where EXISTS (
+    		select 1 from enterprise_member m 
+    		where m.customer_id = t.customer_id 
+    		and m.member_id = #{memberId,jdbcType=VARCHAR})
+  </select>
+  
+  <select id="selectByCriteria" resultMap="BaseResultMap" parameterType="com.zillionfortune.cif.dal.entity.EnterpriseInfo" >
+  	select 
+    <include refid="Base_Column_List" />
+    from enterprise_info
+    <trim prefix="WHERE" prefixOverrides="and">
+      <if test="customerId != null" >
+        and customer_id = #{customerId,jdbcType=VARCHAR}
+      </if>
+      <if test="enterpriseName != null" >
+        and enterprise_name = #{enterpriseName,jdbcType=VARCHAR}
+      </if>
+       <if test="certificateType != null" >
+        and certificate_type = #{certificateType,jdbcType=TINYINT}
+      </if>
+      <if test="certificateNo != null" >
+        and certificate_no = #{certificateNo,jdbcType=VARCHAR}
+      </if>
+      <if test="phoneNo != null" >
+        and phone_no = #{phoneNo,jdbcType=VARCHAR}
+      </if>
+      <if test="legalPersonName != null" >
+        and legal_person_name = #{legalPersonName,jdbcType=TINYINT}
+      </if>
+      <if test="legalPersonCertificateType != null" >
+        and legal_person_certificate_type = #{legalPersonCertificateType,jdbcType=TINYINT}
+      </if>
+      <if test="legalPersonCertificateNo != null" >
+        and legal_person_certificate_no = #{legalPersonCertificateNo,jdbcType=VARCHAR}
+      </if>
+      <if test="bankAccountNo != null" >
+        and bank_account_no = #{bankAccountNo,jdbcType=VARCHAR}
+      </if>
+      <if test="bankAccountName != null" >
+        and bank_account_name = #{bankAccountName,jdbcType=VARCHAR}
+      </if>
+    </trim>
+    limit 1
+  </select>
+  <select id="selectListByCriteria" resultMap="BaseResultMap" parameterType="com.zillionfortune.cif.dal.entity.EnterpriseInfo" >
+  	select 
+    <include refid="Base_Column_List" />
+    from enterprise_info
+    <trim prefix="WHERE" prefixOverrides="and">
+      <if test="customerId != null" >
+        and customer_id = #{customerId,jdbcType=VARCHAR}
+      </if>
+      <if test="enterpriseName != null" >
+        and enterprise_name = #{enterpriseName,jdbcType=VARCHAR}
+      </if>
+       <if test="certificateType != null" >
+        and certificate_type = #{certificateType,jdbcType=TINYINT}
+      </if>
+      <if test="certificateNo != null" >
+        and certificate_no = #{certificateNo,jdbcType=VARCHAR}
+      </if>
+      <if test="phoneNo != null" >
+        and phone_no = #{phoneNo,jdbcType=VARCHAR}
+      </if>
+      <if test="legalPersonName != null" >
+        and legal_person_name = #{legalPersonName,jdbcType=TINYINT}
+      </if>
+      <if test="legalPersonCertificateType != null" >
+        and legal_person_certificate_type = #{legalPersonCertificateType,jdbcType=TINYINT}
+      </if>
+      <if test="legalPersonCertificateNo != null" >
+        and legal_person_certificate_no = #{legalPersonCertificateNo,jdbcType=VARCHAR}
+      </if>
+      <if test="bankAccountNo != null" >
+        and bank_account_no = #{bankAccountNo,jdbcType=VARCHAR}
+      </if>
+      <if test="bankAccountName != null" >
+        and bank_account_name = #{bankAccountName,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from enterprise_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.zillionfortune.cif.dal.entity.EnterpriseInfo" >
+      insert into enterprise_info (id, customer_id, enterprise_name, 
+      certificate_type, certificate_no, certificate_expire_date, 
+      phone_no, legal_person_name, legal_person_certificate_type, 
+      legal_person_certificate_no, legal_person_certificate_expire_date, enterprise_register_addr,
+      branch_bank_name, bank_account_name, bank_account_no, bank_account_region, enterprise_type, industry, post_code,
+	  create_time, create_by, modify_time, modify_by)
+    values (#{id,jdbcType=BIGINT}, #{customerId,jdbcType=VARCHAR}, #{enterpriseName,jdbcType=VARCHAR}, 
+      #{certificateType,jdbcType=BIT}, #{certificateNo,jdbcType=VARCHAR}, #{certificateExpireDate,jdbcType=TIMESTAMP}, 
+      #{phoneNo,jdbcType=VARCHAR}, #{legalPersonName,jdbcType=VARCHAR}, #{legalPersonCertificateType,jdbcType=TINYINT}, 
+      #{legalPersonCertificateNo,jdbcType=VARCHAR}, #{legalPersonCertificateExpireDate,jdbcType=TIMESTAMP}, 
+      #{enterpriseRegisterAddr,jdbcType=VARCHAR},#{branchBankName,jdbcType=VARCHAR},
+      #{bankAccountName ,jdbcType=VARCHAR},#{bankAccountNo ,jdbcType=VARCHAR},#{bankAccountRegion ,jdbcType=VARCHAR},
+      #{enterpriseType ,jdbcType=INTEGER},#{industry ,jdbcType=INTEGER},#{postCode ,jdbcType=INTEGER},
+       #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{modifyBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zillionfortune.cif.dal.entity.EnterpriseInfo" >
+    insert into enterprise_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="enterpriseName != null" >
+        enterprise_name,
+      </if>
+      <if test="certificateType != null" >
+        certificate_type,
+      </if>
+      <if test="certificateNo != null" >
+        certificate_no,
+      </if>
+      <if test="certificateExpireDate != null" >
+        certificate_expire_date,
+      </if>
+       <if test="phoneNo != null" >
+        phone_no,
+      </if>
+      <if test="legalPersonName != null" >
+        legal_person_name,
+      </if>
+      <if test="legalPersonCertificateType != null" >
+        legal_person_certificate_type,
+      </if>
+      <if test="legalPersonCertificateNo != null" >
+        legal_person_certificate_no,
+      </if>
+      <if test="legalPersonCertificateExpireDate != null" >
+        legal_person_certificate_expire_date,
+      </if>
+      <if test="enterpriseRegisterAddr != null" >
+        enterprise_register_addr,
+      </if>
+      <if test="postCode != null" >
+        post_code,
+      </if>
+      <if test="branchBankName != null" >
+      	branch_bank_name,
+      </if>
+      <if test="bankAccountName != null" >
+        bank_account_name,
+      </if>
+      <if test="bankAccountNo != null" >
+      	bank_account_no,
+      </if>
+      <if test="bankAccountRegion != null" >
+        bank_account_region,
+      </if>
+      <if test="enterpriseType != null" >
+      	enterprise_type,
+      </if>
+      <if test="industry != null" >
+        industry,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="modifyBy != null" >
+        modify_by,
+      </if>
+      <if test="enterpriseAuditStatus != null" >
+        enterprise_audit_status,
+      </if>
+      <if test="legalPersonAuditStatus != null" >
+        legal_person_audit_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseName != null" >
+        #{enterpriseName,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateType != null" >
+        #{certificateType,jdbcType=BIT},
+      </if>
+      <if test="certificateNo != null" >
+        #{certificateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateExpireDate != null" >
+        #{certificateExpireDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phoneNo != null" >
+        #{phoneNo,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonName != null" >
+        #{legalPersonName,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonCertificateType != null" >
+        #{legalPersonCertificateType,jdbcType=TINYINT},
+      </if>
+      <if test="legalPersonCertificateNo != null" >
+        #{legalPersonCertificateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonCertificateExpireDate != null" >
+        #{legalPersonCertificateExpireDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enterpriseRegisterAddr != null" >
+        #{enterpriseRegisterAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null" >
+        #{postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="branchBankName != null" >
+        #{branchBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccountName != null" >
+        #{bankAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccountNo != null" >
+        #{bankAccountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccountRegion != null" >
+        #{bankAccountRegion,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseType != null" >
+        #{enterpriseType,jdbcType=INTEGER},
+      </if>
+      <if test="industry != null" >
+        #{industry,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null" >
+        #{modifyBy,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseAuditStatus != null" >
+        #{enterpriseAuditStatus,jdbcType=TINYINT},
+      </if>
+      <if test="legalPersonAuditStatus != null" >
+        #{legalPersonAuditStatus,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zillionfortune.cif.dal.entity.EnterpriseInfo" >
+    update enterprise_info
+    <set >
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseName != null" >
+        enterprise_name = #{enterpriseName,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateType != null" >
+        certificate_type = #{certificateType,jdbcType=BIT},
+      </if>
+      <if test="certificateNo != null" >
+        certificate_no = #{certificateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateExpireDate != null" >
+        certificate_expire_date = #{certificateExpireDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phoneNo != null" >
+        phone_no = #{phoneNo,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonName != null" >
+        legal_person_name = #{legalPersonName,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonCertificateType != null" >
+        legal_person_certificate_type = #{legalPersonCertificateType,jdbcType=TINYINT},
+      </if>
+      <if test="legalPersonCertificateNo != null" >
+        legal_person_certificate_no = #{legalPersonCertificateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonCertificateExpireDate != null" >
+        legal_person_certificate_expire_date = #{legalPersonCertificateExpireDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enterpriseRegisterAddr != null" >
+        enterprise_register_addr = #{enterpriseRegisterAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null" >
+        post_code = #{postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="branchBankName != null" >
+        branch_bank_name = #{branchBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccountName != null" >
+         bank_account_name = #{bankAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccountNo != null" >
+        bank_account_no = #{bankAccountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccountRegion != null" >
+        bank_account_region = #{bankAccountRegion,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseType != null" >
+        enterprise_type = #{enterpriseType,jdbcType=INTEGER},
+      </if>
+      <if test="industry != null" >
+        industry = #{industry,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null" >
+        modify_by = #{modifyBy,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseAuditStatus != null" >
+        enterprise_audit_status = #{enterpriseAuditStatus,jdbcType=TINYINT},
+      </if>
+      <if test="legalPersonAuditStatus != null" >
+        legal_person_audit_status = #{legalPersonAuditStatus,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByCustomerIdSelective" parameterType="com.zillionfortune.cif.dal.entity.EnterpriseInfo" >
+    update enterprise_info
+    <set >
+     <if test="certificateType != null" >
+        certificate_type = #{certificateType,jdbcType=TINYINT},
+      </if>
+      <if test="certificateNo != null" >
+        certificate_no = #{certificateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseName != null" >
+        enterprise_name = #{enterpriseName,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonName != null" >
+        legal_person_name = #{legalPersonName,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateExpireDate != null" >
+        certificate_expire_date = #{certificateExpireDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="legalPersonCertificateType != null" >
+        legal_person_certificate_type = #{legalPersonCertificateType,jdbcType=TINYINT},
+      </if>
+      <if test="legalPersonCertificateNo != null" >
+        legal_person_certificate_no = #{legalPersonCertificateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonCertificateExpireDate != null" >
+        legal_person_certificate_expire_date = #{legalPersonCertificateExpireDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enterpriseRegisterAddr != null" >
+        enterprise_register_addr = #{enterpriseRegisterAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null" >
+        post_code = #{postCode,jdbcType=VARCHAR},
+      </if>
+       <if test="phoneNo != null" >
+        phone_no = #{phoneNo,jdbcType=VARCHAR},
+      </if>
+      <if test="branchBankName != null" >
+        branch_bank_name = #{branchBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccountName != null" >
+         bank_account_name = #{bankAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccountNo != null" >
+        bank_account_no = #{bankAccountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccountRegion != null" >
+        bank_account_region = #{bankAccountRegion,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseType != null" >
+        enterprise_type = #{enterpriseType,jdbcType=INTEGER},
+      </if>
+      <if test="industry != null" >
+        industry = #{industry,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null" >
+        modify_by = #{modifyBy,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseAuditStatus != null" >
+        enterprise_audit_status = #{enterpriseAuditStatus,jdbcType=TINYINT},
+      </if>
+      <if test="legalPersonAuditStatus != null" >
+        legal_person_audit_status = #{legalPersonAuditStatus,jdbcType=TINYINT},
+      </if>
+      <if test="enterpriseAuditComment != null" >
+        enterprise_audit_comment = #{enterpriseAuditComment,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonAuditComment != null" >
+        legal_person_audit_comment = #{legalPersonAuditComment,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CUSTOMER_ID = #{customerId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.zillionfortune.cif.dal.entity.EnterpriseInfo" >
+   update enterprise_info
+    set customer_id = #{customerId,jdbcType=VARCHAR},
+      enterprise_name = #{enterpriseName,jdbcType=VARCHAR},
+      certificate_type = #{certificateType,jdbcType=BIT},
+      certificate_no = #{certificateNo,jdbcType=VARCHAR},
+      certificate_expire_date = #{certificateExpireDate,jdbcType=TIMESTAMP},
+      phone_no = #{phoneNo,jdbcType=VARCHAR},
+      branch_bank_name = #{branchBankName,jdbcType=VARCHAR},
+      bank_account_name = #{bankAccountName,jdbcType=VARCHAR},
+      bank_account_no = #{bankAccountNo,jdbcType=VARCHAR},
+      bank_account_region = #{bankAccountRegion,jdbcType=VARCHAR},
+      enterprise_type = #{enterpriseType,jdbcType=INTEGER},
+      industry = #{industry,jdbcType=INTEGER},
+      legal_person_name = #{legalPersonName,jdbcType=VARCHAR},
+      legal_person_certificate_type = #{legalPersonCertificateType,jdbcType=TINYINT},
+      legal_person_certificate_no = #{legalPersonCertificateNo,jdbcType=VARCHAR},
+      legal_person_certificate_expire_date = #{legalPersonCertificateExpireDate,jdbcType=TIMESTAMP},
+      enterprise_register_addr = #{enterpriseRegisterAddr,jdbcType=VARCHAR},
+      post_code = #{postCode,jdbcType=VARCHAR},
+      enterprise_audit_status = #{enterpriseAuditStatus,jdbcType=TINYINT},
+      legal_person_audit_status = #{legalPersonAuditStatus,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      modify_by = #{modifyBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <sql id="whereQueryUserAuthInfoByPage">
+  	<where>
+      <if test="memberId != null" >
+        and m.member_id = #{memberId,jdbcType=VARCHAR}
+      </if>
+      <if test="enterpriseAuditStatus != null" >
+        and i.enterprise_audit_status = #{enterpriseAuditStatus,jdbcType=TINYINT}
+      </if>
+      <if test="legalPersonAuditStatus != null" >
+        and i.legal_person_audit_status = #{legalPersonAuditStatus,jdbcType=TINYINT}
+      </if>
+      <if test="customerId != null" >
+        and i.customer_id = #{customerId,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+  
+  <select id="queryUserAuthInfoByPage" resultMap="EnterpriseInfoMemberMap"  parameterType="java.util.Map" >
+  	SELECT 
+		m.member_id,
+		i.customer_id,
+		m.customer_no,
+		i.enterprise_name,
+		i.certificate_type,
+		i.certificate_no,
+		i.certificate_expire_date,
+		i.legal_person_name,
+		i.legal_person_certificate_type,
+		i.legal_person_certificate_no,
+		i.legal_person_certificate_expire_date,
+		i.enterprise_audit_comment,
+		i.legal_person_audit_comment
+	from enterprise_info i
+	left JOIN enterprise_member m on i.customer_id = m.customer_id
+	<include refid="whereQueryUserAuthInfoByPage" />
+    limit ${pageStart},${pageSize}
+  </select>
+  <select id="queryUserAuthInfoByPageCount" resultType="java.lang.Long"  parameterType="java.util.Map" >
+  	SELECT 
+		count(1)
+	from enterprise_info i
+	left JOIN enterprise_member m on i.customer_id = m.customer_id
+	<include refid="whereQueryUserAuthInfoByPage" />
+  </select>
+</mapper>

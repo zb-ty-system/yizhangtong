@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zillionfortune.cif.dal.dao.EnterpriseQualificationDao">
+  <resultMap id="BaseResultMap" type="com.zillionfortune.cif.dal.entity.EnterpriseQualification">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="customer_id" jdbcType="VARCHAR" property="customerId" />
+    <result column="business_licence_url" jdbcType="VARCHAR" property="businessLicenceUrl" />
+    <result column="organization_code_certificate_url" jdbcType="VARCHAR" property="organizationCodeCertificateUrl" />
+    <result column="tax_registration_certificate_url" jdbcType="VARCHAR" property="taxRegistrationCertificateUrl" />
+    <result column="tax_registration_certificate_local_url" jdbcType="VARCHAR" property="taxRegistrationCertificateLocalUrl" />
+    <result column="legal_person_certificate_front_url" jdbcType="VARCHAR" property="legalPersonCertificateFrontUrl" />
+    <result column="legal_person_certificate_back_url" jdbcType="VARCHAR" property="legalPersonCertificateBackUrl" />
+    <result column="account_opening_license_url" jdbcType="VARCHAR" property="accountOpeningLicenseUrl" />
+    <result column="power_of_attorney_url" jdbcType="VARCHAR" property="powerOfAttorneyUrl" />
+    <result column="service_application_url" jdbcType="VARCHAR" property="serviceApplicationUrl" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, customer_id, business_licence_url, organization_code_certificate_url, tax_registration_certificate_url, 
+    tax_registration_certificate_local_url, legal_person_certificate_front_url, legal_person_certificate_back_url, 
+    account_opening_license_url, power_of_attorney_url, service_application_url,
+    create_time, modify_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from enterprise_qualification
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <!-- 根据customerId查询 -->
+  <select id="selectByCustormerId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from enterprise_qualification
+    where customer_id = #{customerId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from enterprise_qualification
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.zillionfortune.cif.dal.entity.EnterpriseQualification">
+    insert into enterprise_qualification (id, customer_id, business_licence_url, 
+      organization_code_certificate_url, tax_registration_certificate_url, 
+      tax_registration_certificate_local_url, legal_person_certificate_front_url, 
+      legal_person_certificate_back_url, account_opening_license_url, 
+      power_of_attorney_url, service_application_url, create_time, 
+      modify_time)
+    values (#{id,jdbcType=BIGINT}, #{customerId,jdbcType=VARCHAR}, #{businessLicenceUrl,jdbcType=VARCHAR}, 
+      #{organizationCodeCertificateUrl,jdbcType=VARCHAR}, #{taxRegistrationCertificateUrl,jdbcType=VARCHAR}, 
+      #{taxRegistrationCertificateLocalUrl,jdbcType=VARCHAR}, #{legalPersonCertificateFrontUrl,jdbcType=VARCHAR}, 
+      #{legalPersonCertificateBackUrl,jdbcType=VARCHAR}, #{accountOpeningLicenseUrl,jdbcType=VARCHAR}, 
+      #{powerOfAttorneyUrl,jdbcType=VARCHAR}, #{serviceApplicationUrl,jdbcType=VARCHAR}, 
+      now(), 
+      #{modifyTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zillionfortune.cif.dal.entity.EnterpriseQualification">
+    insert into enterprise_qualification
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="customerId != null">
+        customer_id,
+      </if>
+      <if test="businessLicenceUrl != null">
+        business_licence_url,
+      </if>
+      <if test="organizationCodeCertificateUrl != null">
+        organization_code_certificate_url,
+      </if>
+      <if test="taxRegistrationCertificateUrl != null">
+        tax_registration_certificate_url,
+      </if>
+      <if test="taxRegistrationCertificateLocalUrl != null">
+        tax_registration_certificate_local_url,
+      </if>
+      <if test="legalPersonCertificateFrontUrl != null">
+        legal_person_certificate_front_url,
+      </if>
+      <if test="legalPersonCertificateBackUrl != null">
+        legal_person_certificate_back_url,
+      </if>
+      <if test="accountOpeningLicenseUrl != null">
+        account_opening_license_url,
+      </if>
+      <if test="powerOfAttorneyUrl != null">
+        power_of_attorney_url,
+      </if>
+      <if test="serviceApplicationUrl != null">
+        service_application_url,
+      </if>
+        create_time,
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null">
+        #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicenceUrl != null">
+        #{businessLicenceUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationCodeCertificateUrl != null">
+        #{organizationCodeCertificateUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="taxRegistrationCertificateUrl != null">
+        #{taxRegistrationCertificateUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="taxRegistrationCertificateLocalUrl != null">
+        #{taxRegistrationCertificateLocalUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonCertificateFrontUrl != null">
+        #{legalPersonCertificateFrontUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonCertificateBackUrl != null">
+        #{legalPersonCertificateBackUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="accountOpeningLicenseUrl != null">
+        #{accountOpeningLicenseUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="powerOfAttorneyUrl != null">
+        #{powerOfAttorneyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceApplicationUrl != null">
+        #{serviceApplicationUrl,jdbcType=VARCHAR},
+      </if>
+      now(),
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zillionfortune.cif.dal.entity.EnterpriseQualification">
+    update enterprise_qualification
+    <set>
+      <if test="customerId != null">
+        customer_id = #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicenceUrl != null">
+        business_licence_url = #{businessLicenceUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationCodeCertificateUrl != null">
+        organization_code_certificate_url = #{organizationCodeCertificateUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="taxRegistrationCertificateUrl != null">
+        tax_registration_certificate_url = #{taxRegistrationCertificateUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="taxRegistrationCertificateLocalUrl != null">
+        tax_registration_certificate_local_url = #{taxRegistrationCertificateLocalUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonCertificateFrontUrl != null">
+        legal_person_certificate_front_url = #{legalPersonCertificateFrontUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonCertificateBackUrl != null">
+        legal_person_certificate_back_url = #{legalPersonCertificateBackUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="accountOpeningLicenseUrl != null">
+        account_opening_license_url = #{accountOpeningLicenseUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="powerOfAttorneyUrl != null">
+        power_of_attorney_url = #{powerOfAttorneyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceApplicationUrl != null">
+        service_application_url = #{serviceApplicationUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+        modify_time = now()
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zillionfortune.cif.dal.entity.EnterpriseQualification">
+    update enterprise_qualification
+    set customer_id = #{customerId,jdbcType=VARCHAR},
+      business_licence_url = #{businessLicenceUrl,jdbcType=VARCHAR},
+      organization_code_certificate_url = #{organizationCodeCertificateUrl,jdbcType=VARCHAR},
+      tax_registration_certificate_url = #{taxRegistrationCertificateUrl,jdbcType=VARCHAR},
+      tax_registration_certificate_local_url = #{taxRegistrationCertificateLocalUrl,jdbcType=VARCHAR},
+      legal_person_certificate_front_url = #{legalPersonCertificateFrontUrl,jdbcType=VARCHAR},
+      legal_person_certificate_back_url = #{legalPersonCertificateBackUrl,jdbcType=VARCHAR},
+      account_opening_license_url = #{accountOpeningLicenseUrl,jdbcType=VARCHAR},
+      power_of_attorney_url = #{powerOfAttorneyUrl,jdbcType=VARCHAR},
+      service_application_url = #{serviceApplicationUrl,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = now()
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByCustomerIdKeySelective" parameterType="com.zillionfortune.cif.dal.entity.EnterpriseQualification">
+    update enterprise_qualification
+    <set>
+      <if test="businessLicenceUrl != null">
+        business_licence_url = #{businessLicenceUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationCodeCertificateUrl != null">
+        organization_code_certificate_url = #{organizationCodeCertificateUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="taxRegistrationCertificateUrl != null">
+        tax_registration_certificate_url = #{taxRegistrationCertificateUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="taxRegistrationCertificateLocalUrl != null">
+        tax_registration_certificate_local_url = #{taxRegistrationCertificateLocalUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonCertificateFrontUrl != null">
+        legal_person_certificate_front_url = #{legalPersonCertificateFrontUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonCertificateBackUrl != null">
+        legal_person_certificate_back_url = #{legalPersonCertificateBackUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="accountOpeningLicenseUrl != null">
+        account_opening_license_url = #{accountOpeningLicenseUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="powerOfAttorneyUrl != null">
+        power_of_attorney_url = #{powerOfAttorneyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceApplicationUrl != null">
+        service_application_url = #{serviceApplicationUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+        modify_time = now()
+    </set>
+    where customer_id = #{customerId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zillionfortune.cif.dal.dao.EnterpriseLoginLogDao" >
+  <resultMap id="BaseResultMap" type="com.zillionfortune.cif.dal.entity.EnterpriseLoginLog" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="login_name" property="loginName" jdbcType="VARCHAR" />
+    <result column="customer_no" property="customerNo" jdbcType="VARCHAR" />
+    <result column="login_time" property="loginTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, login_name, customer_no, login_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from enterprise_login_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from enterprise_login_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.zillionfortune.cif.dal.entity.EnterpriseLoginLog" >
+    insert into enterprise_login_log (id, login_name, customer_no, 
+      login_time)
+    values (#{id,jdbcType=BIGINT}, #{loginName,jdbcType=VARCHAR}, #{customerNo,jdbcType=VARCHAR}, 
+      #{loginTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.zillionfortune.cif.dal.entity.EnterpriseLoginLog" >
+    insert into enterprise_login_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="loginName != null" >
+        login_name,
+      </if>
+      <if test="customerNo != null" >
+        customer_no,
+      </if>
+      <if test="loginTime != null" >
+        login_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="loginName != null" >
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerNo != null" >
+        #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTime != null" >
+        #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zillionfortune.cif.dal.entity.EnterpriseLoginLog" >
+    update enterprise_login_log
+    <set >
+      <if test="loginName != null" >
+        login_name = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerNo != null" >
+        customer_no = #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTime != null" >
+        login_time = #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zillionfortune.cif.dal.entity.EnterpriseLoginLog" >
+    update enterprise_login_log
+    set login_name = #{loginName,jdbcType=VARCHAR},
+      customer_no = #{customerNo,jdbcType=VARCHAR},
+      login_time = #{loginTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

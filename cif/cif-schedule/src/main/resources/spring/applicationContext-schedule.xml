@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Application context definition. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/jdbc
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+		
+	<context:annotation-config />
+	<context:component-scan base-package="com.zillionfortune.cif.schedule" />
+
+	<!-- Quartz本地Schduler -->
+	<bean id="localQuartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<!-- Triggers集成 -->
+		<property name="triggers">
+			<list>
+				<ref bean="rechargeRepairTrigger" />
+				<ref bean="rechargeOverTimeTrigger" />
+				<ref bean="rechargeChannelRouteTrigger" />
+			</list>
+		</property>
+		<property name="quartzProperties">
+			<props>
+				<prop key="org.quartz.threadPool.threadCount">5</prop>
+				<prop key="org.quartz.scheduler.skipUpdateCheck">true</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- ##############################触发器定义############################### -->
+
+	<!-- 充值补单 Trigger定义 -->
+	<bean id="rechargeRepairTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="rechargeRepairJobDetail" />
+		<!-- 每天晚上23:55触发 -->
+		<property name="cronExpression" value="0 0/1 * * * ?" />
+	</bean>
+	
+	<bean id="rechargeOverTimeTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="rechargeOverTimeJobDetail" />
+		<!-- 每天晚上23:55触发 -->
+		<property name="cronExpression" value="0 0/30 * * * ?" />
+	</bean>
+	
+	<bean id="rechargeChannelRouteTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="rechargeChannelRouteJobDetail" />
+		<!-- 每天晚上23:55触发 -->
+		<property name="cronExpression" value="0 0/1 * * * ?" />
+	</bean>
+	
+
+	<!-- ##############################Job Detail Bean############################### -->
+
+	<bean id="rechargeRepairJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="rechargeRepairAction" />
+		<property name="targetMethod" value="execute" />	
+	</bean>
+	
+	<bean id="rechargeOverTimeJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="rechargeOverTimeAction" />
+		<property name="targetMethod" value="execute" />	
+	</bean>
+	
+	<bean id="rechargeChannelRouteJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="rechargeChannelRouteAction" />
+		<property name="targetMethod" value="execute" />	
+	</bean>
+	
+	<bean id="rechargeRepairAction" class="com.zillionfortune.cif.schedule.action.RechargeRepairAction"/>
+	
+	<bean id="rechargeOverTimeAction" class="com.zillionfortune.cif.schedule.action.RechargeOverTimeAction"/>
+	
+	<bean id="rechargeChannelRouteAction" class="com.zillionfortune.cif.schedule.action.RechargeChannelRouteAction"/>
+	
+	
+</beans>

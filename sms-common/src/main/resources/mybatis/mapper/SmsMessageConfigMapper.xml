@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zb.sms.common.dao.mapper.SmsMessageConfigMapper">
+    <resultMap id="BaseResultMap" type="com.zb.sms.common.model.SmsMessageConfigDo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="sys_id" property="sysId" jdbcType="INTEGER"/>
+        <result column="sms_code" property="smsCode" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="sms_type" property="smsType" jdbcType="TINYINT"/>
+        <result column="is_local_template" property="isLocalTemplate" jdbcType="TINYINT"/>
+        <result column="local_template_id" property="localTemplateId" jdbcType="INTEGER"/>
+        <result column="is_remote_template" property="isRemoteTemplate" jdbcType="TINYINT"/>
+        <result column="remote_template_id" property="remoteTemplateId" jdbcType="VARCHAR"/>
+        <result column="is_default_channel" property="isDefaultChannel" jdbcType="TINYINT"/>
+        <result column="channel_id" property="channelId" jdbcType="INTEGER"/>
+        <result column="mobile_max_limit" property="mobileMaxLimit" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, sys_id, sms_code, status, sms_type, is_local_template, local_template_id,
+        is_remote_template, remote_template_id, is_default_channel, channel_id, mobile_max_limit,
+        create_time, modified_time
+    </sql>
+
+    <sql id="Select_SQL">
+        select
+        <include refid="Base_Column_List"/>
+        from sms_message_config
+        <where>
+            <if test="id != null">
+                and id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="sysId != null">
+                and sys_id = #{sysId,jdbcType=INTEGER}
+            </if>
+            <if test="smsCode != null">
+                and sms_code = #{smsCode,jdbcType=VARCHAR}
+            </if>
+            <if test="status != null">
+                and status = #{status,jdbcType=TINYINT}
+            </if>
+            <if test="smsType != null">
+                and sms_type = #{smsType,jdbcType=TINYINT}
+            </if>
+            <if test="isLocalTemplate != null">
+                and is_local_template = #{isLocalTemplate,jdbcType=TINYINT}
+            </if>
+            <if test="localTemplateId != null">
+                and local_template_id = #{localTemplateId,jdbcType=INTEGER}
+            </if>
+            <if test="isRemoteTemplate != null">
+                and is_remote_template = #{isRemoteTemplate,jdbcType=TINYINT}
+            </if>
+            <if test="remoteTemplateId != null">
+                and remote_template_id = #{remoteTemplateId,jdbcType=VARCHAR}
+            </if>
+            <if test="isDefaultChannel != null">
+                and is_default_channel = #{isDefaultChannel,jdbcType=TINYINT}
+            </if>
+            <if test="channelId != null">
+                and channel_id = #{channelId,jdbcType=INTEGER}
+            </if>
+            <if test="mobileMaxLimit != null">
+                and mobile_max_limit = #{mobileMaxLimit,jdbcType=INTEGER}
+            </if>
+        </where>
+    </sql>
+
+    <select id="select" resultMap="BaseResultMap" parameterType="com.zb.sms.common.model.SmsSystemInfoDo">
+        <include refid="Select_SQL"/>
+    </select>
+
+    <select id="selectList" resultMap="BaseResultMap" parameterType="com.zb.sms.common.model.SmsSystemInfoDo">
+        <include refid="Select_SQL"/>
+    </select>
+
+    <select id="selectByMap" resultMap="BaseResultMap" parameterType="map">
+        <include refid="Select_SQL"/>
+    </select>
+
+    <select id="selectListByMap" resultMap="BaseResultMap" parameterType="map">
+        <include refid="Select_SQL"/>
+    </select>
+
+    <insert id="insert" parameterType="com.zb.sms.common.model.SmsMessageConfigDo">
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sms_message_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sysId != null">
+                sys_id,
+            </if>
+            <if test="smsCode != null">
+                sms_code,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="smsType != null">
+                sms_type,
+            </if>
+            <if test="isLocalTemplate != null">
+                is_local_template,
+            </if>
+            <if test="localTemplateId != null">
+                local_template_id,
+            </if>
+            <if test="isRemoteTemplate != null">
+                is_remote_template,
+            </if>
+            <if test="remoteTemplateId != null">
+                remote_template_id,
+            </if>
+            <if test="isDefaultChannel != null">
+                is_default_channel,
+            </if>
+            <if test="channelId != null">
+                channel_id,
+            </if>
+            <if test="mobileMaxLimit != null">
+                mobile_max_limit,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sysId != null">
+                #{sysId,jdbcType=INTEGER},
+            </if>
+            <if test="smsCode != null">
+                #{smsCode,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="smsType != null">
+                #{smsType,jdbcType=TINYINT},
+            </if>
+            <if test="isLocalTemplate != null">
+                #{isLocalTemplate,jdbcType=TINYINT},
+            </if>
+            <if test="localTemplateId != null">
+                #{localTemplateId,jdbcType=INTEGER},
+            </if>
+            <if test="isRemoteTemplate != null">
+                #{isRemoteTemplate,jdbcType=TINYINT},
+            </if>
+            <if test="remoteTemplateId != null">
+                #{remoteTemplateId,jdbcType=VARCHAR},
+            </if>
+            <if test="isDefaultChannel != null">
+                #{isDefaultChannel,jdbcType=TINYINT},
+            </if>
+            <if test="channelId != null">
+                #{channelId,jdbcType=INTEGER},
+            </if>
+            <if test="mobileMaxLimit != null">
+                #{mobileMaxLimit,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.zb.sms.common.model.SmsMessageConfigDo">
+        update sms_message_config
+        <set>
+            <if test="sysId != null">
+                sys_id = #{sysId,jdbcType=INTEGER},
+            </if>
+            <if test="smsCode != null">
+                sms_code = #{smsCode,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="smsType != null">
+                sms_type = #{smsType,jdbcType=TINYINT},
+            </if>
+            <if test="isLocalTemplate != null">
+                is_local_template = #{isLocalTemplate,jdbcType=TINYINT},
+            </if>
+            <if test="localTemplateId != null">
+                local_template_id = #{localTemplateId,jdbcType=INTEGER},
+            </if>
+            <if test="isRemoteTemplate != null">
+                is_remote_template = #{isRemoteTemplate,jdbcType=TINYINT},
+            </if>
+            <if test="remoteTemplateId != null">
+                remote_template_id = #{remoteTemplateId,jdbcType=VARCHAR},
+            </if>
+            <if test="isDefaultChannel != null">
+                is_default_channel = #{isDefaultChannel,jdbcType=TINYINT},
+            </if>
+            <if test="channelId != null">
+                channel_id = #{channelId,jdbcType=INTEGER},
+            </if>
+            <if test="mobileMaxLimit != null">
+                mobile_max_limit = #{mobileMaxLimit,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from sms_message_config
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+</mapper>

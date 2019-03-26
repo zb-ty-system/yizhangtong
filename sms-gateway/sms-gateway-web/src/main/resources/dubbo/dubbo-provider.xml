@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd        
+    http://code.alibabatech.com/schema/dubbo        
+    http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:provider protocol="dubbo"/>
+    <dubbo:protocol name="dubbo" port="${config.dubbo.port}"/>
+
+    <!-- 短信平台网关接口 -->
+    <dubbo:service interface="com.zb.sms.gateway.facade.SmGatewayServiceFacade" ref="smGatewayServiceFacade"/>
+    <bean id="smGatewayServiceFacade" class="com.zb.sms.gateway.facade.impl.SmGatewayServiceFacadeImpl"/>
+</beans>

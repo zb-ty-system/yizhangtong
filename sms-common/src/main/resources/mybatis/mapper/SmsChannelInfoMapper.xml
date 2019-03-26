@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zb.sms.common.dao.mapper.SmsChannelInfoMapper">
+    <resultMap id="BaseResultMap" type="com.zb.sms.common.model.SmsChannelInfoDo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="channel_code" property="channelCode" jdbcType="VARCHAR"/>
+        <result column="channel_name" property="channelName" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, channel_code, channel_name, status, create_time, modified_time
+    </sql>
+
+    <sql id="Select_SQL">
+        select
+        <include refid="Base_Column_List"/>
+        from sms_channel_info
+        <where>
+            <if test="id != null">
+                and id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="channelCode != null">
+                and channel_code = #{channelCode,jdbcType=VARCHAR}
+            </if>
+            <if test="status != null">
+                and status = #{status,jdbcType=TINYINT}
+            </if>
+        </where>
+    </sql>
+
+    <select id="select" resultMap="BaseResultMap" parameterType="com.zb.sms.common.model.SmsChannelInfoDo">
+        <include refid="Select_SQL"/>
+    </select>
+
+    <select id="selectList" resultMap="BaseResultMap" parameterType="com.zb.sms.common.model.SmsChannelInfoDo">
+        <include refid="Select_SQL"/>
+    </select>
+
+    <select id="selectByMap" resultMap="BaseResultMap" parameterType="map">
+        <include refid="Select_SQL"/>
+    </select>
+
+    <select id="selectListByMap" resultMap="BaseResultMap" parameterType="map">
+        <include refid="Select_SQL"/>
+    </select>
+
+    <insert id="insert" parameterType="com.zb.sms.common.model.SmsChannelInfoDo">
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sms_channel_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="channelCode != null">
+                channel_code,
+            </if>
+            <if test="channelName != null">
+                channel_name,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="channelCode != null">
+                #{channelCode,jdbcType=VARCHAR},
+            </if>
+            <if test="channelName != null">
+                #{channelName,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.zb.sms.common.model.SmsChannelInfoDo">
+        update sms_channel_info
+        <set>
+            <if test="channelCode != null">
+                channel_code = #{channelCode,jdbcType=VARCHAR},
+            </if>
+            <if test="channelName != null">
+                channel_name = #{channelName,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from sms_channel_info
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+</mapper>

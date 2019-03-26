@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zb.sms.common.dao.mapper.SmsSystemInfoMapper">
+    <resultMap id="BaseResultMap" type="com.zb.sms.common.model.SmsSystemInfoDo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="sys_code" property="sysCode" jdbcType="VARCHAR"/>
+        <result column="sys_name" property="sysName" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, sys_code, sys_name, status, create_time, modified_time
+    </sql>
+
+    <sql id="Select_SQL">
+        select
+        <include refid="Base_Column_List"/>
+        from sms_system_info
+        <where>
+            <if test="id != null">
+                and id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="sysCode != null">
+                and sys_code = #{sysCode,jdbcType=VARCHAR}
+            </if>
+            <if test="status != null">
+                and status = #{status,jdbcType=TINYINT}
+            </if>
+        </where>
+    </sql>
+
+    <select id="select" resultMap="BaseResultMap" parameterType="com.zb.sms.common.model.SmsSystemInfoDo">
+        <include refid="Select_SQL"/>
+    </select>
+
+    <select id="selectList" resultMap="BaseResultMap" parameterType="com.zb.sms.common.model.SmsSystemInfoDo">
+        <include refid="Select_SQL"/>
+    </select>
+
+    <select id="selectByMap" resultMap="BaseResultMap" parameterType="map">
+        <include refid="Select_SQL"/>
+    </select>
+
+    <select id="selectListByMap" resultMap="BaseResultMap" parameterType="map">
+        <include refid="Select_SQL"/>
+    </select>
+
+    <insert id="insert" parameterType="com.zb.sms.common.model.SmsSystemInfoDo">
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sms_system_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sysCode != null">
+                sys_code,
+            </if>
+            <if test="sysName != null">
+                sys_name,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sysCode != null">
+                #{sysCode,jdbcType=VARCHAR},
+            </if>
+            <if test="sysName != null">
+                #{sysName,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.zb.sms.common.model.SmsSystemInfoDo">
+        update sms_system_info
+        <set>
+            <if test="sysCode != null">
+                sys_code = #{sysCode,jdbcType=VARCHAR},
+            </if>
+            <if test="sysName != null">
+                sys_name = #{sysName,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from sms_system_info
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+</mapper>

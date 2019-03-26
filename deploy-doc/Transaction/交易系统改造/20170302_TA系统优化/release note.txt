@@ -1,0 +1,13 @@
+部署信息
+  发布日期：2017-03-02
+  涉及系统：
+    asset:http://gitlab.zbjf.com/yizhangtong/asset_t (release20170302)
+需求信息
+  http://jira.zbjf.com/browse/YZT-818
+负责人
+
+
+相关文档
+	
+
+
